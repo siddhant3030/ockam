@@ -1,5 +1,6 @@
 #include "ockam/error.h"
 #include "ockam/vault.h"
+#include "ockam/log.h"
 
 #include "ockam/vault/impl.h"
 
@@ -9,6 +10,25 @@ static const ockam_error_t ockam_vault_interface_error_none = {
   OCKAM_ERROR_NONE,
   OCKAM_VAULT_INTERFACE_ERROR_DOMAIN
 };
+
+void log_bin(const char *str, const uint8_t* bin, size_t size)
+{
+  if (size > 64) {
+    ockam_log_error("Too long binary");
+    return;
+  }
+
+  char buffer[130];
+  char* p = buffer;
+
+  p += sprintf(p, "%s", "0x");
+
+  for (size_t i = 0; i < size; i++) {
+    p += sprintf(p, "%02X", bin[i]);
+  }
+
+  ockam_log_debug("%s: %s", str, buffer);
+}
 
 ockam_error_t ockam_vault_deinit(ockam_vault_t* vault)
 {

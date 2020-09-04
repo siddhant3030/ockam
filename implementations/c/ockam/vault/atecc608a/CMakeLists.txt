@@ -26,6 +26,7 @@ target_link_libraries(ockam_vault_atecc608a
         ockam::mutex
         ockam::memory
         ockam::vault_interface
+        ockam::log
         cryptoauth)
 
 if (OCKAM_ENABLE_ATECC608A_TESTS)
